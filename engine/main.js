@@ -11,6 +11,7 @@ let engine_background_symbols = []
 
 let engine_background_render = ""
 
+
 function start() {
     document.getElementById("mainText").textContent = "Made using \n 3-day game engine \n which was made in 3 days"
 

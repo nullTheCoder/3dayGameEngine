@@ -1,8 +1,19 @@
 
 
-let engine_objects = [{name:"null",symbol:'#',x:140924,y:0}]
+let engine_objects = []
+
 
 let currentOBJ = -1
+
+function getPosObject(name) {
+    for (let i = 0; i < engine_objects.length; i++) {
+        if (name === engine_objects[i].name) {
+            return [engine_objects[i].x, engine_objects[i].y]
+
+        }
+    }
+}
+
 
 function moveObject(name, x, y) {
     for (let i = 0; i < engine_objects.length; i++) {
@@ -13,12 +24,11 @@ function moveObject(name, x, y) {
         }
     }
 
-    for (let i = 0; i < engine_objects.length; i++) { if (engine_objects[currentOBJ].x + x == engine_objects[i].x) { if (engine_objects[currentOBJ].y + y == engine_objects[i].y) {return false } }}
+    for (let i = 0; i < engine_objects.length; i++) { if (engine_objects[currentOBJ].x + x == engine_objects[i].x) { if (engine_objects[currentOBJ].y + y == engine_objects[i].y) { return false }  } }
 
     if (engine_objects[currentOBJ].x + x < 0 || engine_objects[currentOBJ].y + y < 0) { return false }
-    if (engine_objects[currentOBJ].x + x > engine_width - 1|| engine_objects[currentOBJ].y + y > engine_height - 1) { return false }
-
-
+    if (engine_objects[currentOBJ].x + x > engine_width - 1 || engine_objects[currentOBJ].y + y > engine_height - 1) { return false }
+    
     engine_objects[currentOBJ].x = engine_objects[currentOBJ].x + x
     engine_objects[currentOBJ].y = engine_objects[currentOBJ].y + y
     return true
@@ -29,14 +39,15 @@ function addObject(name, x, y, symbol) {
 
 }
 
-function removeObject(name) {
-    for (let i = 0; i < engine_objects.length; i++) {
-        if (name === engine_objects[i].name) {
-            engine_objects[i] = {name:"null",symbol:'#',x:140924,y:0}
-            return true
 
+    function removeObject(name) {
+        for (let i = 0; i < engine_objects.length; i++) {
+            if (name === engine_objects[i].name) {
+                engine_objects[i] = { name: "null", symbol: '#', x: 140924, y: 0 }
+                return true
+
+            }
         }
-    }
 
-    return false
-}
+        return false
+    }
