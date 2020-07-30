@@ -10,12 +10,16 @@ function startGame() {
         "####################",
         "####################"
     ])
+
+    addObject('wall', 5, 0, 'G')
+    addObject('test', 0, 3, '^')
 }
 
 function update() {
     i2++
     if (i2 == 30) {
         moveObject('test', 1, 0)
+        moveObject('test', 0, -1)
         i2 = 0 
     }
 }

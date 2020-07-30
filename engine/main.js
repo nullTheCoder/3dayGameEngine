@@ -1,15 +1,15 @@
 
-let updateFunc
+let engine_updateFunc
 
-let width = 0
+let engine_width = 0
 
-let height = 0
+let engine_height = 0
 
-let background_symbols_br = []
+let engine_bg_symbols = []
 
-let background_symbols = []
+let engine_background_symbols = []
 
-let background_render = ""
+let engine_background_render = ""
 
 function start() {
     document.getElementById("mainText").textContent = "Made using \n 3-day game engine \n which was made in 3 days"
@@ -20,41 +20,42 @@ function start() {
 
 function addUpdates(func)
 {
-    updateFunc = func
+    engine_updateFunc = func
 }
 
 function everyUpdate() {
-    updateFunc()
-    render()
+    engine_updateFunc()
+    engine_render()
 }
 
 
 function setScreen(width_, height_) {
-    width = width_
-    height = height_
+    engine_width = width_
+    engine_height = height_
 }
 
 function displayBackground(list_of_strings)
 {
-    background_symbolssbr = list_of_strings
+    engine_bg_symbols = list_of_strings
 }
 
-function render() {
-    background_render = ""
-    background_symbols = background_symbolssbr
+function engine_render() {
+    engine_background_render = ""
 
-    for (i = 0; objects.length > i; i++) {
-        background_symbols[objects[i].y] = replaceAt(background_symbols[objects[i].y], objects[i].x, objects[i].symbol)
-        console.log(i)
+    for (i = 0; i < engine_height; i++)
+        engine_background_symbols[i] = engine_bg_symbols[i]
+
+    for (i = 0; engine_objects.length > i; i++) {
+        engine_background_symbols[engine_objects[i].y] = replaceAt(engine_background_symbols[engine_objects[i].y], engine_objects[i].x, engine_objects[i].symbol)
     }
 
 
-    for (i = 0; i < background_symbols.length; i++) {
-        background_render = background_render + background_symbols[i] + "\n"
+    for (i = 0; i < engine_background_symbols.length; i++) {
+        engine_background_render = engine_background_render + engine_background_symbols[i] + "\n"
     }
 
-    document.getElementById("mainText").textContent = background_render
-}
+    document.getElementById("mainText").textContent = engine_background_render
+}   
 
 
 function replaceAt(str, index, chr) {
