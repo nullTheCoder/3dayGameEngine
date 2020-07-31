@@ -31,7 +31,6 @@ function additional_playAnimationScene(name, functionToCall) {
     for (let i = 0; i < additional_animated_scenes.length; i++) {
         if (name === additional_animated_scenes[i].scene_name) {
             additional_current_anim = i
-            console.log(additional_animated_scenes)
         }
     }
 
