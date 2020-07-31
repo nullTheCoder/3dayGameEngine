@@ -73,17 +73,70 @@ function game_start() {
         objects: [{ name: "player", symbol: "F", x: 1, y: 2 }],
     })
 
-    engine_addScene({
-        name: "end", background: [
+
+    additional_addAnimatedScene("end", 0.1, [
+        [
             "^^^^^^^^^^^^^^^^^^^^",
             "<                  >",
             "<      le ende     >",
             "<                  >",
             "^^^^^^^^^^^^^^^^^^^^"
         ],
-        walls: [],
-        objects: []
-    })
+        [
+            "^^^^^^^^^^^^^^^^^^^^",
+            "<                  >",
+            "<     le ende      >",
+            "<                  >",
+            "^^^^^^^^^^^^^^^^^^^^"
+        ],
+        [
+            "^^^^^^^^^^^^^^^^^^^^",
+            "<                  >",
+            "<    le ende       >",
+            "<                  >",
+            "^^^^^^^^^^^^^^^^^^^^"
+        ],
+        [
+            "^^^^^^^^^^^^^^^^^^^^",
+            "<                  >",
+            "<     le ende      >",
+            "<                  >",
+            "^^^^^^^^^^^^^^^^^^^^"
+        ],
+        [
+            "^^^^^^^^^^^^^^^^^^^^",
+            "<                  >",
+            "<      le ende     >",
+            "<                  >",
+            "^^^^^^^^^^^^^^^^^^^^"
+        ],
+        [
+            "^^^^^^^^^^^^^^^^^^^^",
+            "<                  >",
+            "<       le ende    >",
+            "<                  >",
+            "^^^^^^^^^^^^^^^^^^^^"
+        ],
+        [
+            "^^^^^^^^^^^^^^^^^^^^",
+            "<                  >",
+            "<        le ende   >",
+            "<                  >",
+            "^^^^^^^^^^^^^^^^^^^^"
+        ],
+        [
+            "^^^^^^^^^^^^^^^^^^^^",
+            "<                  >",
+            "<       le ende    >",
+            "<                  >",
+            "^^^^^^^^^^^^^^^^^^^^"
+        ],
+
+
+    ])
+
+
+
 
     document.addEventListener('keydown', logKey);
 }
@@ -121,7 +174,12 @@ function logKey(e) {
             engine_changeScene("t2")
         }
         else if (engine_getCurrentScene() == "t2") {
-            engine_changeScene("end")
+            additional_playAnimationScene("end", replay)
         }
     }
+}
+
+function replay() {
+    additional_playAnimationScene("end", replay)
+
 }
