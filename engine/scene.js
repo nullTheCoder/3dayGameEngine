@@ -2,24 +2,7 @@ let engine_current_sceene = ""
 let engine_sceene_selected = 0
 let engine_i3_val = 0
 
-let engine_scenes = [{
-    sceene_name: "t0", sceene_bg: [
-        "####################",
-        "#                  #",
-        "#                  #",
-        "#                  #",
-        "####################"
-    ],
-    wall_objs: [
-        "####################",
-        "#   #         ##   #",
-        "#        #         #",
-        "##    #     #  #   #",
-        "####################"
-    ],
-    game_objects: [{name:"player",symbol:"F",x:1,y:2}]
-
-}]
+let engine_scenes = []
 
 
 function change_sceene(sceene) {
@@ -31,13 +14,28 @@ function addSceene(sceene_) {
     engine_scenes.push(sceene_)
 }
 
+function getSceene() {
+    return engine_current_sceene
+}
+
+function SaveCurrentSceene(name) {
+    addSceene({
+        sceene_name: name, sceene_bg: [
+            engine_bg_symbols
+        ],
+        wall_objs: [
+            
+        ],
+        game_objects: engine_objects
+    })
+}
+
 function engine_load_cur_sceene() {
-    for (let i = 0; i < engine_objects.length; i++) {
-        console.log(engine_objects[i].sceene_name)
-        if (engine_current_sceene === engine_objects[i].sceene_name) {
+    for (let i = 0; i < engine_scenes.length; i++) {
+        if (engine_current_sceene === engine_scenes[i].sceene_name) {
             engine_sceene_selected = i
-            console.log(i)
         }
+        console.log(engine_scenes[i].sceene_name)
     }
 
     //console.log(engine_scenes[engine_sceene_selected])
