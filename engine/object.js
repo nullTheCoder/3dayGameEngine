@@ -1,5 +1,5 @@
 // The Three Day Engine
-// Copyright(C) 2020 Stepan Gaidukevich
+// Copyright(C) 2020 The TDE Team
 //
 // This program is free software: you can redistribute it and / or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,66 +15,77 @@
 
 let engine_objects = []
 
-
-let engine_currentOBJ = -1
-
-function getPosObject(name) {
+function engine_getObjectPosition(name) {
     for (let i = 0; i < engine_objects.length; i++) {
         if (name === engine_objects[i].name) {
             return [engine_objects[i].x, engine_objects[i].y]
-
         }
     }
 }
 
 
-function moveObject(name, x, y) {
+function engine_setObjectPosition(name, x, y) {
+	let obj = -1
+
     for (let i = 0; i < engine_objects.length; i++) {
         if (name === engine_objects[i].name) {
-            engine_currentOBJ = i
-            i = engine_objects.length
-       
+            obj = i
+            break
         }
     }
 
-    for (let i = 0; i < engine_objects.length; i++) { if (engine_objects[engine_currentOBJ].x + x == engine_objects[i].x) { if (engine_objects[engine_currentOBJ].y + y == engine_objects[i].y) { return [false, engine_objects[i]] }  } }
+    engine_objects[obj].x = x
+    engine_objects[obj].y = y
+}
 
-    if (engine_objects[engine_currentOBJ].x + x < 0 || engine_objects[engine_currentOBJ].y + y < 0) { return [false, "non"] }
-    if (engine_objects[engine_currentOBJ].x + x > engine_width - 1 || engine_objects[engine_currentOBJ].y + y > engine_height - 1) { return [false, { name: "null", symbol: ' ', x: 0, y: 0 }] }
+function engine_moveObject(name, x, y) {
+	let obj = -1
+
+    for (let i = 0; i < engine_objects.length; i++) {
+        if (name === engine_objects[i].name) {
+            obj = i
+            break
+        }
+    }
+
+    for (let i = 0; i < engine_objects.length; i++) { 
+    	if (engine_objects[obj].x + x == engine_objects[i].x) { 
+    		if (engine_objects[obj].y + y == engine_objects[i].y) { 
+    			return [false, engine_objects[i]] 
+    		}  
+    	} 
+    }
+
+    if (engine_objects[obj] == undefined) {
+    	return [false, { name: "null", symbol: ' ', x: 0, y: 0 }] 
+    }
+
+    if (engine_objects[obj].x + x < 0 || engine_objects[obj].y + y < 0) { 
+    	return [false, { name: "null", symbol: ' ', x: 0, y: 0 }] 
+    }
+
+    if (engine_objects[obj].x + x > engine_width - 1 || engine_objects[obj].y + y > engine_height - 1) { 
+    	return [false, { name: "null", symbol: ' ', x: 0, y: 0 }] 
+    }
     
-    engine_objects[engine_currentOBJ].x = engine_objects[engine_currentOBJ].x + x
-    engine_objects[engine_currentOBJ].y = engine_objects[engine_currentOBJ].y + y
+    engine_objects[obj].x = engine_objects[obj].x + x
+    engine_objects[obj].y = engine_objects[obj].y + y
+
     return [true, { name: "null", symbol: ' ', x: 0, y: 0 }]
 }
 
-function addObject(name, x, y, symbol) {
-    engine_objects.push({name:name,symbol:symbol,x:x,y:y});
-
+function engine_addObject(name, x, y, symbol) {
+    engine_objects.push({name:name, symbol:symbol, x:x, y:y});
 }
 
 
-    function removeObject(name) {
-        for (let i = 0; i < engine_objects.length; i++) {
-            if (name === engine_objects[i].name) {
-                engine_objects[i] = { name: "null", symbol: '#', x: 140924, y: 0 }
-                return true
-
-            }
-        }
-
-        return false
-    }
-
-
-function setObjectsPos(name, x, y) {
+function engine_removeObject(name) {
     for (let i = 0; i < engine_objects.length; i++) {
         if (name === engine_objects[i].name) {
-            engine_currentOBJ = i
-            i = engine_objects.length
-
+            engine_objects[i] = { name: "null", symbol: '#', x: 140924, y: 0 }
+            return true
         }
     }
-    engine_objects[engine_currentOBJ].x = x
-    engine_objects[engine_currentOBJ].y = y
 
+    return false
 }

@@ -1,5 +1,5 @@
 // The Three Day Engine
-// Copyright(C) 2020 Stepan Gaidukevich
+// Copyright(C) 2020 The TDE Team
 //
 // This program is free software: you can redistribute it and / or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,57 +14,65 @@
 // along with this program.If not, see https://www.gnu.org/licenses/.
 
 
-let engine_current_sceene = ""
-let engine_sceene_selected = 0
-let engine_i3_val = 0
+let engine_currentScene = ""
+let engine_selectedScene = 0
+//let engine_i3_val = 0
 
 let engine_scenes = []
 
 
-function change_sceene(sceene) {
-    engine_current_sceene = sceene
-    engine_load_cur_sceene()
+function engine_changeScene(scene) {
+    engine_currentScene = scene
+    engine_loadCurrentScene()
 }
 
-function addSceene(sceene_) {
-    engine_scenes.push(sceene_)
+function engine_addScene(scene_) {
+    engine_scenes.push(scene_)
 }
 
-function getSceene() {
-    return engine_current_sceene
+function engine_getCurrentScene() {
+    return engine_currentScene
 }
 
-function SaveCurrentSceene(name) {
-    addSceene({
-        sceene_name: name, sceene_bg: [
-            engine_bg_symbols
-        ],
-        wall_objs: [
-            
-        ],
-        game_objects: engine_objects
+function engine_saveCurrentSceene(name_) {
+    engine_addSceene({
+        name: name_, 
+
+        background: [engine_fixed_background],
+        walls: [],
+        objects: engine_objects,
+
+        update: null,
+        start: null
     })
 }
 
-function engine_load_cur_sceene() {
+function engine_loadCurrentScene() {
     for (let i = 0; i < engine_scenes.length; i++) {
-        if (engine_current_sceene === engine_scenes[i].sceene_name) {
-            engine_sceene_selected = i
+        if (engine_currentScene === engine_scenes[i].name) {
+            engine_selectedScene = i
+            break
         }
-        console.log(engine_scenes[i].sceene_name)
     }
 
-    //console.log(engine_scenes[engine_sceene_selected])
+    engine_objects = engine_scenes[engine_selectedScene].objects
+    engine_displayBackground(engine_scenes[engine_selectedScene].background)
 
-    engine_objects = engine_scenes[engine_sceene_selected].game_objects
-
-    displayBackground(engine_scenes[engine_sceene_selected].sceene_bg)
-
-    for (let i = 0; i < engine_scenes[engine_sceene_selected].wall_objs.length; i++) {
-        for (let i2 = 0; i2 < engine_scenes[engine_sceene_selected].wall_objs[i].length; i2++) {
-            if (engine_scenes[engine_sceene_selected].wall_objs[i][i2] != ' ') {
-                addObject('engine_object_type_wall', i2, i, engine_scenes[engine_sceene_selected].wall_objs[i][i2])
+    for (let i = 0; i < engine_scenes[engine_selectedScene].walls.length; i++) {
+        for (let j = 0; j < engine_scenes[engine_selectedScene].walls[i].length; j++) {
+            if (engine_scenes[engine_selectedScene].walls[i][j] != ' ') {
+                engine_addObject('engine_object_type_wall', j, i, engine_scenes[engine_selectedScene].walls[i][j])
             }
         }
     }
+
+    if(engine_scenes[engine_selectedScene].start != null) {
+		engine_scenes[engine_selectedScene].start()
+	}
+}
+
+function engine_updateCurrentScene() {
+	if(engine_scenes[engine_selectedScene].update != null) {
+		engine_scenes[engine_selectedScene].update()
+	}
 }

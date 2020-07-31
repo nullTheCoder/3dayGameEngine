@@ -1,5 +1,5 @@
 // The Three Day Engine
-// Copyright(C) 2020 Stepan Gaidukevich
+// Copyright(C) 2020 The TDE Team
 //
 // This program is free software: you can redistribute it and / or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,125 +13,115 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see https://www.gnu.org/licenses/.
 
-let i2 = 0
-let i4 = 0
-
-
-function startGame() {
-    addSceene({
-        sceene_name: "t0", sceene_bg: [
+function game_start() {
+    engine_addScene({
+        name: "t0", background: [
             "####################",
             "#       -->       %#",
             "#            -->  %#",
             "#   -->           %#",
             "####################"
         ],
-        wall_objs: [
+        walls: [
             "####################",
             "#   #         ##  %#",
             "#        #        %#",
             "##    #     #  #  %#",
             "####################"
         ],
-        game_objects: [{ name: "player", symbol: "F", x: 1, y: 2 }]
+        objects: [{ name: "player", symbol: "F", x: 1, y: 2 }]
 
     })
 
-    change_sceene("t0")
-    addUpdates(update)
-    setScreen(20, 5)
-    addSceene({
-        sceene_name: "t1", sceene_bg: [
+    engine_changeScene("t0")
+    //engine_addUpdate(update)
+    engine_setScreen(20, 5)
+
+    engine_addScene({
+        name: "t1", background: [
             "########           #",
             "#    -->           #",
             "#           -->    #",
             "#        -->       #",
             "####################"
         ],
-        wall_objs: [
+        walls: [
             "#############    ###",
             "#     #       #  # #",
             "#         #       # ",
             "#    #     #  #    %",
             "####################"
         ],
-        game_objects: [{ name: "player", symbol: "F", x: 1, y: 2 }]
+        objects: [{ name: "player", symbol: "F", x: 1, y: 2 }]
     })
 
-    addSceene({
-        sceene_name: "t2", sceene_bg: [
+    engine_addScene({
+        name: "t2", background: [
             "############        ",
             "#           -->     ",
             "#    -->     -->   #",
             "#                  #",
             "####################"
         ],
-        wall_objs: [
+        walls: [
             "############        ",
             "#     #       #  ## ",
             "#               # #%",
             "#    #             #",
             "####################"
         ],
-        game_objects: [{ name: "player", symbol: "F", x: 1, y: 2 }]
+        objects: [{ name: "player", symbol: "F", x: 1, y: 2 }],
     })
 
-    addSceene({
-        sceene_name: "end", sceene_bg: [
+    engine_addScene({
+        name: "end", background: [
             "^^^^^^^^^^^^^^^^^^^^",
             "<                  >",
-            "<    le ende       >",
-            "thx for playing this>",
+            "<      le ende     >",
+            "<                  >",
             "^^^^^^^^^^^^^^^^^^^^"
         ],
-        wall_objs: [
-        ],
-        game_objects: []
+        walls: [],
+        objects: []
     })
 
     document.addEventListener('keydown', logKey);
-
-
 }
 
-function update() {}
-
 function logKey(e) {
+    let vector = []
+
     if (e.key == "w") {
-        while (moveObject("player", 0, -1)[0] === true) { }
-
-        if (moveObject("player", 0, -1)[1].symbol != '%') {
-            return
-        }
+        vector = [0, -1]
     }
+
     else if (e.key == "s") {
-        while (moveObject("player", 0, 1)[0] === true) { }
-        if (moveObject("player", 0, 1)[1].symbol != '%') {
-            return
-        }
+        vector = [0, 1]
     }
+
     else if (e.key == "a") {
-        while (moveObject("player", -1, 0)[0] === true) { }
-        if (moveObject("player", -1, 0)[1].symbol != '%') {
-            return
-        }
+        vector = [-1, 0]
     }
+
     else if (e.key == "d") {
-        while (moveObject("player", 1, 0)[0] === true) { }
-        if (moveObject("player", 1, 0)[1].symbol != '%') {
-            return
+        vector = [1, 0]
+    }
+
+    else {
+        return
+    }
+
+    while (engine_moveObject("player", vector[0], vector[1])[0] === true) { }
+
+    if (engine_moveObject("player", vector[0], vector[1])[1].symbol == "%") {
+        if (engine_getCurrentScene() == "t0") {
+            engine_changeScene("t1")
+        }
+        else if (engine_getCurrentScene() == "t1") {
+            engine_changeScene("t2")
+        }
+        else if (engine_getCurrentScene() == "t2") {
+            engine_changeScene("end")
         }
     }
-    else return
-
-    if (getSceene() == "t0") {
-        change_sceene("t1")
-    }
-    else if (getSceene() == "t1") {
-        change_sceene("t2")
-    }
-    else if (getSceene() == "t2") {
-        change_sceene("end")
-    }
-
 }
